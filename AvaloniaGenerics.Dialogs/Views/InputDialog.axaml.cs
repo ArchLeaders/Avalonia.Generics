@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using Material.Icons;
+using Material.Icons.Avalonia;
 
 namespace AvaloniaGenerics.Dialogs
 {
@@ -11,13 +13,20 @@ namespace AvaloniaGenerics.Dialogs
         private Dictionary<string, string> DataRoot { get; set; } = new();
 
         public InputDialog() => AvaloniaXamlLoader.Load(this);
-        public InputDialog(Dictionary<string, string> root, string title)
+        public InputDialog(Dictionary<string, string> root, string title, MaterialIconKind? icon = null)
         {
             AvaloniaXamlLoader.Load(this);
             DataRoot = root;
 
             StackPanel uiRoot = this.FindControl<StackPanel>("Root")!;
             this.FindControl<TextBlock>("TitleBox")!.Text = title;
+
+            if (icon != null) {
+                this.FindControl<Image>("DefaultIco")!.IsVisible = false;
+                MaterialIcon materialIco = this.FindControl<MaterialIcon>("MaterialIco")!;
+                materialIco.IsVisible = true;
+                materialIco.Kind = (MaterialIconKind)icon;
+            }
 
             foreach ((var key, var value) in DataRoot) {
 
@@ -33,16 +42,16 @@ namespace AvaloniaGenerics.Dialogs
             }
         }
 
-        public static void ShowSync(Dictionary<string, string> root, string title = "Input Dialog")
+        public static void ShowSync(Dictionary<string, string> root, string title = "Input Dialog", MaterialIconKind? icon = null)
         {
             using var source = new CancellationTokenSource();
-            Show(root, title).ContinueWith(t => source.Cancel(), TaskScheduler.FromCurrentSynchronizationContext());
+            Show(root, title, icon).ContinueWith(t => source.Cancel(), TaskScheduler.FromCurrentSynchronizationContext());
             Dispatcher.UIThread.MainLoop(source.Token);
         }
 
-        public static async Task<Dictionary<string, string>?> Show(Dictionary<string, string> root, string title = "Input Dialog")
+        public static async Task<Dictionary<string, string>?> Show(Dictionary<string, string> root, string title = "Input Dialog", MaterialIconKind? icon = null)
         {
-            InputDialog dialog = new(root, title);
+            InputDialog dialog = new(root, title, icon);
             var res = MessageBoxResult.Ok;
 
             var buttonPanel = dialog.FindControl<StackPanel>("Buttons")!;

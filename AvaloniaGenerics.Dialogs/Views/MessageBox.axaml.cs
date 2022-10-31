@@ -4,15 +4,24 @@ using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Markdown.Avalonia;
+using Material.Icons;
+using Material.Icons.Avalonia;
 
 namespace AvaloniaGenerics.Dialogs
 {
     public partial class MessageBox : Window
     {
         public MessageBox() => AvaloniaXamlLoader.Load(this);
-        public MessageBox(string title, string text, Formatting formatting)
+        public MessageBox(string title, string text, Formatting formatting, MaterialIconKind? icon = null)
         {
             AvaloniaXamlLoader.Load(this);
+
+            if (icon != null) {
+                this.FindControl<Image>("DefaultIco")!.IsVisible = false;
+                MaterialIcon materialIco = this.FindControl<MaterialIcon>("MaterialIco")!;
+                materialIco.IsVisible = true;
+                materialIco.Kind = (MaterialIconKind)icon;
+            }
 
             var tb = this.FindControl<TextBox>("Text")!;
             if (formatting == Formatting.Markdown) {
@@ -37,16 +46,16 @@ namespace AvaloniaGenerics.Dialogs
             };
         }
 
-        public static void ShowSync(string text, string title = "Notice", MessageBoxButtons buttons = MessageBoxButtons.Ok, Formatting formatting = Formatting.None)
+        public static void ShowSync(string text, string title = "Notice", MessageBoxButtons buttons = MessageBoxButtons.Ok, Formatting formatting = Formatting.None, MaterialIconKind? icon = null)
         {
             using var source = new CancellationTokenSource();
-            Show(text, title, buttons, formatting).ContinueWith(t => source.Cancel(), TaskScheduler.FromCurrentSynchronizationContext());
+            Show(text, title, buttons, formatting, icon).ContinueWith(t => source.Cancel(), TaskScheduler.FromCurrentSynchronizationContext());
             Dispatcher.UIThread.MainLoop(source.Token);
         }
 
-        public static async Task<MessageBoxResult> Show(string text, string title = "Notice", MessageBoxButtons buttons = MessageBoxButtons.Ok, Formatting formatting = Formatting.None)
+        public static async Task<MessageBoxResult> Show(string text, string title = "Notice", MessageBoxButtons buttons = MessageBoxButtons.Ok, Formatting formatting = Formatting.None, MaterialIconKind? icon = null)
         {
-            MessageBox msgbox = new(title, text, formatting);
+            MessageBox msgbox = new(title, text, formatting, icon);
             var res = MessageBoxResult.Ok;
 
             var buttonPanel = msgbox.FindControl<StackPanel>("Buttons")!;

@@ -97,13 +97,23 @@
                     Background="{DynamicResource SystemChromeLowColor}"
                     IsHitTestVisible="False" />
 
-            <Image Width="24"
+            <Image Name="DefaultIco"
+                   Width="24"
                    Height="24"
                    Margin="5,3,3,3"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
                    IsHitTestVisible="False"
                    Source="/Assets/icon.ico" />
+
+            <mdix:MaterialIcon Name="MaterialIco"
+                               IsVisible="False"
+                               Width="24"
+                               Height="24"
+                               Margin="5,3,3,3"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               IsHitTestVisible="False" />
 
             <TextBlock Name="TitleBox"
                        Grid.Column="1"
