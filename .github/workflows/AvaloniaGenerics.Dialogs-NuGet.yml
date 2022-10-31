@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      csproj: "AvaloniaGenerics/AvaloniaGenerics.Dialogs.csproj"
+      csproj: "AvaloniaGenerics.Dialogs/AvaloniaGenerics.Dialogs.csproj"
       build: "${{ github.workspace }}/build"
 
     steps:
