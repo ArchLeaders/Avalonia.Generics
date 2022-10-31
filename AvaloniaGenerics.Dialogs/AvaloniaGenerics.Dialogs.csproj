@@ -4,6 +4,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Title>Avalonia Generics - Dialogs</Title>
+    <Authors>ArchLeaders</Authors>
+    <Description>Generic dialog wrapper for AvaloniaUI</Description>
+    <Copyright>(c) Arch Leaders</Copyright>
+    <PackageProjectUrl>https://github.com/ArchLeaders/AvaloniaGenerics/tree/master/AvaloniaGenerics.Dialogs</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/ArchLeaders/AvaloniaGenerics</RepositoryUrl>
+    <PackageTags>avaloniaui;generic;dialogs</PackageTags>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +25,17 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview3" />
     <PackageReference Include="Markdown.Avalonia" Version="11.0.0-a4" />
     <PackageReference Include="Material.Icons.Avalonia" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="ReadMe.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
