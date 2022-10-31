@@ -19,6 +19,6 @@ namespace AvaloniaGenerics.Dialogs
             }
         }
 
-        public static void InitializeGenericDialogs(Window view) => View = view;
+        public static void InitializeGenericDialogs(this Window view) => View = view;
     }
 }
