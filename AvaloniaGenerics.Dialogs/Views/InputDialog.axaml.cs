@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
+using Avalonia.Threading;
 
 namespace AvaloniaGenerics.Dialogs
 {
@@ -32,7 +33,14 @@ namespace AvaloniaGenerics.Dialogs
             }
         }
 
-        public static async Task<Dictionary<string, string>?> Show(Dictionary<string, string> root, string title = "Notice")
+        public static void ShowSync(Dictionary<string, string> root, string title = "Input Dialog")
+        {
+            using var source = new CancellationTokenSource();
+            Show(root, title).ContinueWith(t => source.Cancel(), TaskScheduler.FromCurrentSynchronizationContext());
+            Dispatcher.UIThread.MainLoop(source.Token);
+        }
+
+        public static async Task<Dictionary<string, string>?> Show(Dictionary<string, string> root, string title = "Input Dialog")
         {
             InputDialog dialog = new(root, title);
             var res = MessageBoxResult.Ok;
