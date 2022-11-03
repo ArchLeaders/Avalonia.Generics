@@ -9,10 +9,10 @@ namespace AvaloniaGenerics.Dialogs
     {
         internal static Window? View { get; set; }
 
-        internal static TopLevel? GetTopLevel()
+        internal static TopLevel GetTopLevel()
         {
             if (View != null) {
-                return View.GetVisualRoot() as TopLevel;
+                return View.GetVisualRoot() as TopLevel ?? throw new Exception($"Could not find visual root on '{View.GetType().FullName}'.");
             }
             else {
                 throw new Exception($"Could not find visual root in library '{nameof(Dialogs)}'. Make sure {nameof(Dialogs)} is intialized with 'IVisual.InitializeGenericDialogs()'.");
