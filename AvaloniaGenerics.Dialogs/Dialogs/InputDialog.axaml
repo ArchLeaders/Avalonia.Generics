@@ -74,13 +74,13 @@
                    Source="/Assets/icon.ico" />
 
             <mdix:MaterialIcon Name="MaterialIco"
-                               IsVisible="False"
                                Width="24"
                                Height="24"
                                Margin="5,3,3,3"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               IsHitTestVisible="False" />
+                               IsHitTestVisible="False"
+                               IsVisible="False" />
 
             <TextBlock Name="TitleBox"
                        Grid.Column="1"
