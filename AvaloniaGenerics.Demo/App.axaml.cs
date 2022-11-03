@@ -1,11 +1,11 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using AvaloniaGenerics.Demo.ViewModels;
-using AvaloniaGenerics.Demo.Views;
-using AvaloniaGenerics.Dialogs;
+using Avalonia.Generics.Demo.ViewModels;
+using Avalonia.Generics.Demo.Views;
+using Avalonia.Generics.Dialogs;
 
-namespace AvaloniaGenerics.Demo
+namespace Avalonia.Generics.Demo
 {
     public partial class App : Application
     {

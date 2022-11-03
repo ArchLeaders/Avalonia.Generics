@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace AvaloniaGenerics.Demo.Views
+namespace Avalonia.Generics.Demo.Views
 {
     public partial class MainWindow : Window
     {

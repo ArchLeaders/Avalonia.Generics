@@ -3,7 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using System;
 
-namespace AvaloniaGenerics.Demo
+namespace Avalonia.Generics.Demo
 {
     internal class Program
     {

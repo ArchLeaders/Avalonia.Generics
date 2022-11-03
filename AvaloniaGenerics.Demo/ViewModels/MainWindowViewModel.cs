@@ -1,12 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using AvaloniaGenerics.Dialogs;
+using Avalonia.Generics.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AvaloniaGenerics.Demo.ViewModels
+namespace Avalonia.Generics.Demo.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
