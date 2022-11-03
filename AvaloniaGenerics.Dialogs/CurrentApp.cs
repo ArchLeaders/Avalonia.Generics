@@ -1,15 +1,24 @@
-﻿global using static AvaloniaGenerics.Dialogs.Initializer;
-
+﻿global using static AvaloniaGenerics.CurrentApp;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AvaloniaGenerics.Dialogs
+namespace AvaloniaGenerics
 {
-    public static class Initializer
+    internal class CurrentApp
     {
-        internal static Window? View { get; set; }
+        internal static CurrentApp App { get; set; } = new();
 
-        internal static TopLevel GetTopLevel()
+        internal Window? View { get; set; }
+        internal Bitmap? Icon { get; set; }
+        internal Bitmap DefaultIcon { get; set; } = null!;
+
+        internal TopLevel GetTopLevel()
         {
             if (View != null) {
                 return View.GetVisualRoot() as TopLevel ?? throw new Exception($"Could not find visual root on '{View.GetType().FullName}'.");
@@ -21,7 +30,5 @@ namespace AvaloniaGenerics.Dialogs
                 );
             }
         }
-
-        public static void InitializeGenericDialogs(this Window view) => View = view;
     }
 }

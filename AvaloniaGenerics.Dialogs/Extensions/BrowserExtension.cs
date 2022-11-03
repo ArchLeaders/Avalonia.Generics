@@ -1,8 +1,10 @@
 ﻿using Avalonia.Input;
 using Avalonia.Platform.Storage;
 
-namespace AvaloniaGenerics.Dialogs
+namespace Avalonia.Generics.Extensions
 {
+    public enum BrowserDialog { OpenFile, OpenFolder, SaveFile }
+
     public static class BrowserExtension
     {
         public static IStorageFolder? LastSelectedDirectory { get; set; }
@@ -11,7 +13,7 @@ namespace AvaloniaGenerics.Dialogs
         /// <inheritdoc cref="ShowDialog(BrowserDialog, string?, string?, bool)"/>
         public static async Task<string?> ShowDialog(this BrowserDialog browser, string? title = null, string? filter = null)
         {
-            return (await ShowDialog(browser, title, filter, false))?.First();
+            return (await browser.ShowDialog(title, filter, false))?.First();
         }
 
         /// <summary>
@@ -26,21 +28,25 @@ namespace AvaloniaGenerics.Dialogs
         {
             title ??= browser.ToString().Replace("F", " F");
 
-            IStorageProvider StorageProvider = GetTopLevel()!.StorageProvider;
+            IStorageProvider StorageProvider = App.GetTopLevel().StorageProvider;
 
-            object? result = browser switch {
-                BrowserDialog.OpenFolder => await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions() {
+            object? result = browser switch
+            {
+                BrowserDialog.OpenFolder => await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                {
                     Title = title,
                     SuggestedStartLocation = LastSelectedDirectory,
                     AllowMultiple = multiple
                 }),
-                BrowserDialog.OpenFile => await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions() {
+                BrowserDialog.OpenFile => await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+                {
                     Title = title,
                     SuggestedStartLocation = LastSelectedDirectory,
                     AllowMultiple = multiple,
                     FileTypeFilter = LoadFileBrowserFilter(filter)
                 }),
-                BrowserDialog.SaveFile => await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions() {
+                BrowserDialog.SaveFile => await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
+                {
                     Title = title,
                     SuggestedStartLocation = LastSaveDirectory,
                     FileTypeChoices = LoadFileBrowserFilter(filter)
@@ -48,40 +54,49 @@ namespace AvaloniaGenerics.Dialogs
                 _ => throw new NotImplementedException()
             };
 
-            if (result is IReadOnlyList<IStorageFolder> folders && folders.Count > 0) {
+            if (result is IReadOnlyList<IStorageFolder> folders && folders.Count > 0)
+            {
                 LastSelectedDirectory = folders[folders.Count - 1];
                 return folders.Select(folder => folder.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : folder.Name);
             }
-            else if (result is IReadOnlyList<IStorageFile> files && files.Count > 0) {
+            else if (result is IReadOnlyList<IStorageFile> files && files.Count > 0)
+            {
                 LastSelectedDirectory = await files[files.Count - 1].GetParentAsync();
                 return files.Select(file => file.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : file.Name);
             }
-            else if (result is IStorageFile file) {
+            else if (result is IStorageFile file)
+            {
                 LastSelectedDirectory = await file.GetParentAsync();
                 return new string[1] {
                     file.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : file.Name
                 };
             }
-            else {
+            else
+            {
                 return null;
             }
         }
 
         internal static FilePickerFileType[] LoadFileBrowserFilter(string? filter = null)
         {
-            if (filter != null) {
-                try {
+            if (filter != null)
+            {
+                try
+                {
                     string[] groups = filter.Split('|');
                     FilePickerFileType[] types = new FilePickerFileType[groups.Length];
 
-                    for (int i = 0; i < groups.Length; i++) {
+                    for (int i = 0; i < groups.Length; i++)
+                    {
                         string[] pair = groups[i].Split(':');
-                        types[i] = new(pair[0]) {
+                        types[i] = new(pair[0])
+                        {
                             Patterns = pair[1].Split(';')
                         };
                     }
                 }
-                catch {
+                catch
+                {
                     throw new FormatException(
                         $"Could not parse filter arguments '{filter}'.\n" +
                         $"Example: \"Yaml Files:*.yml;*.yaml|All Files:*.*\"."
