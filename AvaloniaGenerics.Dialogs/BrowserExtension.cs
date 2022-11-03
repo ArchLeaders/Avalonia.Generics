@@ -1,4 +1,5 @@
-﻿using Avalonia.Platform.Storage;
+﻿using Avalonia.Input;
+using Avalonia.Platform.Storage;
 
 namespace AvaloniaGenerics.Dialogs
 {
@@ -7,44 +8,88 @@ namespace AvaloniaGenerics.Dialogs
         public static IStorageFolder? LastSelectedDirectory { get; set; }
         public static IStorageFolder? LastSaveDirectory { get; set; }
 
-        public static async Task<string?> ShowDialog(this BrowserDialog browser, string title = "")
+        /// <inheritdoc cref="ShowDialog(BrowserDialog, string?, string?, bool)"/>
+        public static async Task<string?> ShowDialog(this BrowserDialog browser, string? title = null, string? filter = null)
         {
-            string? path = null;
+            return (await ShowDialog(browser, title, filter, false))?.First();
+        }
 
-            if (browser == BrowserDialog.Folder) {
-                var result = await GetTopLevel()!.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions() {
+        /// <summary>
+        /// Opens a new <paramref name="browser"/> dialog and returns the selected files/folders.
+        /// </summary>
+        /// <param name="browser"></param>
+        /// <param name="title"></param>
+        /// <param name="filter">Semicolon delimited list of file filters. (Syntax: <c>Yaml Files<see cref="char">:</see>*.yml<see cref="char">;</see>*.yaml<see cref="char">|</see>All Files<see cref="char">:</see>*.*</c>)</param>
+        /// <param name="multiple"></param>
+        /// <returns></returns>
+        public static async Task<IEnumerable<string>?> ShowDialog(this BrowserDialog browser, string? title = null, string? filter = null, bool multiple = true)
+        {
+            title ??= browser.ToString().Replace("F", " F");
+
+            IStorageProvider StorageProvider = GetTopLevel()!.StorageProvider;
+
+            object? result = browser switch {
+                BrowserDialog.OpenFolder => await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions() {
                     Title = title,
-                    SuggestedStartLocation = LastSelectedDirectory
-                });
+                    SuggestedStartLocation = LastSelectedDirectory,
+                    AllowMultiple = multiple
+                }),
+                BrowserDialog.OpenFile => await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions() {
+                    Title = title,
+                    SuggestedStartLocation = LastSelectedDirectory,
+                    AllowMultiple = multiple,
+                    FileTypeFilter = LoadFileBrowserFilter(filter)
+                }),
+                BrowserDialog.SaveFile => await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions() {
+                    Title = title,
+                    SuggestedStartLocation = LastSaveDirectory,
+                    FileTypeChoices = LoadFileBrowserFilter(filter)
+                }),
+                _ => throw new NotImplementedException()
+            };
 
-                IStorageItem? item = result.FirstOrDefault() is IStorageItem _item ? _item : null;
-                if (item != null) {
-                    path = item.TryGetUri(out Uri? uri) ? uri.ToString() : item.Name;
-                    LastSelectedDirectory = item as IStorageFolder;
-                }
+            if (result is IReadOnlyList<IStorageFolder> folders && folders.Count > 0) {
+                LastSelectedDirectory = folders[folders.Count - 1];
+                return folders.Select(folder => folder.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : folder.Name);
             }
-            else if (browser == BrowserDialog.File) {
-                var result = await GetTopLevel()!.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions() {
-                    Title = title,
-                    SuggestedStartLocation = LastSelectedDirectory
-                });
-
-                IStorageItem? item = result.FirstOrDefault() is IStorageItem _item ? _item : null;
-                if (item != null) {
-                    path = item.TryGetUri(out Uri? uri) ? uri.ToString() : item.Name;
-                    LastSelectedDirectory = await item.GetParentAsync();
-                }
+            else if (result is IReadOnlyList<IStorageFile> files && files.Count > 0) {
+                LastSelectedDirectory = await files[files.Count - 1].GetParentAsync();
+                return files.Select(file => file.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : file.Name);
+            }
+            else if (result is IStorageFile file) {
+                LastSelectedDirectory = await file.GetParentAsync();
+                return new string[1] {
+                    file.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : file.Name
+                };
             }
             else {
-                var result = await GetTopLevel()!.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions() {
-                    Title = title,
-                    SuggestedStartLocation = LastSaveDirectory
-                });
-                path = result != null ? result.TryGetUri(out Uri? uri) ? uri.ToString() : result.Name : null;
-                LastSaveDirectory = result != null ? await result.GetParentAsync() : null;
+                return null;
+            }
+        }
+
+        internal static FilePickerFileType[] LoadFileBrowserFilter(string? filter = null)
+        {
+            if (filter != null) {
+                try {
+                    string[] groups = filter.Split('|');
+                    FilePickerFileType[] types = new FilePickerFileType[groups.Length];
+
+                    for (int i = 0; i < groups.Length; i++) {
+                        string[] pair = groups[i].Split(':');
+                        types[i] = new(pair[0]) {
+                            Patterns = pair[1].Split(';')
+                        };
+                    }
+                }
+                catch {
+                    throw new FormatException(
+                        $"Could not parse filter arguments '{filter}'.\n" +
+                        $"Example: \"Yaml Files:*.yml;*.yaml|All Files:*.*\"."
+                    );
+                }
             }
 
-            return path?.Remove(0, 8);
+            return Array.Empty<FilePickerFileType>();
         }
     }
 }
