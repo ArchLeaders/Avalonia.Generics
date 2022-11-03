@@ -1,0 +1,79 @@
+<Window x:Class="AvaloniaGenerics.Dialogs.GenericDialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mdix="using:Material.Icons.Avalonia"
+        Title="InputDialog"
+        d:DesignHeight="200"
+        d:DesignWidth="300"
+        Background="{DynamicResource SystemChromeMediumColor}"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="30"
+        ExtendClientAreaToDecorationsHint="True"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d">
+
+    <Grid RowDefinitions="30,*">
+
+        <Border Background="{DynamicResource SystemChromeHighColor}"
+                IsHitTestVisible="False"
+                Opacity="0.6" />
+
+        <Grid ColumnDefinitions="Auto,*">
+            <StackPanel IsHitTestVisible="False" Orientation="Horizontal">
+                <Image Name="DialogIcon"
+                       Width="22"
+                       Margin="4" />
+                <TextBlock Name="TitleBox"
+                           Margin="4,0"
+                           VerticalAlignment="Center"
+                           FontSize="14" />
+            </StackPanel>
+            <StackPanel Name="ChromeButtons"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="CornerRadius" Value="0" />
+                    </Style>
+                    <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                    <Style Selector="mdix|MaterialIcon">
+                        <Setter Property="Width" Value="24" />
+                        <Setter Property="Height" Value="24" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="0,1,0,0" />
+                    </Style>
+                </StackPanel.Styles>
+                <Button Name="Minimize"
+                        Width="40"
+                        Height="30">
+                    <mdix:MaterialIcon Margin="0,2,0,0" Kind="Minus" />
+                </Button>
+                <Button Name="Fullscreen"
+                        Width="40"
+                        Height="30">
+                    <Grid>
+                        <mdix:MaterialIcon Name="ICON_Fullscreen" Kind="Fullscreen" />
+                        <mdix:MaterialIcon Name="ICON_Restore"
+                                           IsVisible="False"
+                                           Kind="WindowRestore" />
+                    </Grid>
+                </Button>
+                <Button Name="Quit"
+                        Width="40"
+                        Height="30">
+                    <mdix:MaterialIcon Kind="Close" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <ContentControl Name="Content" Grid.Row="1" />
+    </Grid>
+</Window>
