@@ -1,24 +1,27 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Generics.Dialogs;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using System.Reflection;
 
-namespace Avalonia.Generics.Dialogs
+namespace Avalonia.Generics.Controls
 {
-    public partial class GenericDialog : Window
+    public partial class GenericWindow : Window
     {
-        public MessageBoxResult Result { get; set; }
+        public DialogResult Result { get; set; }
 
-        public GenericDialog() => throw new NotImplementedException();
-        public GenericDialog(string title, object content, bool canResize = false, bool canMinimize = true, double minWidth = 0, double minHeight = 0, IImage? icon = null)
+        public GenericWindow() => throw new NotImplementedException();
+        public GenericWindow(string? title, object? content, object? menu, object? chrome, bool canResize = false, bool canMinimize = true, double minWidth = 0, double minHeight = 0, double maxWidth = double.NaN, double maxHeight = double.NaN, IImage? icon = null)
         {
             InitializeComponent();
             DataContext = this;
             MinWidth = minWidth;
             MinHeight = minHeight;
+            MaxWidth = maxWidth;
+            MaxHeight = maxHeight;
 
             // Set title
             Title = title;
@@ -33,7 +36,7 @@ namespace Avalonia.Generics.Dialogs
             Minimize.Click += (s, e) => WindowState = WindowState.Minimized;
             Fullscreen.Click += (s, e) => WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
             Quit.Click += (s, e) => {
-                Result = MessageBoxResult.Cancel;
+                Result = DialogResult.Cancel;
                 Close();
             };
 
@@ -64,22 +67,6 @@ namespace Avalonia.Generics.Dialogs
             }
 
             base.HandleWindowStateChanged(state);
-        }
-
-        public void MinimizeEvent()
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        public void FullscreenEvent()
-        {
-            WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
-        }
-
-        public void QuitEvent()
-        {
-            Result = MessageBoxResult.Cancel;
-            Close();
         }
     }
 }
