@@ -14,7 +14,7 @@ namespace AvaloniaGenerics
     {
         internal static CurrentApp App { get; set; } = new();
 
-        internal Window? View { get; set; }
+        internal Window View { get; set; }
         internal Bitmap? Icon { get; set; }
         internal Bitmap DefaultIcon { get; set; } = null!;
         internal TopLevel TopLevel { get; set; } = null!;
