@@ -26,6 +26,9 @@ namespace AvaloniaGenerics
                     stream.Position = 0;
                     App.Icon = new Bitmap(stream);
                 }
+
+                // Construct TopLevel
+                App.TopLevel = App.View.GetVisualRoot() as TopLevel ?? throw new Exception($"Could not find visual root on '{App.View.GetType().FullName}'.");
             }
             else {
                 throw new NotImplementedException();
