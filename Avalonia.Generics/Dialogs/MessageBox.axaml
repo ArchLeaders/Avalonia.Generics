@@ -1,9 +1,9 @@
-<Window x:Class="AvaloniaGenerics.Dialogs.MessageBox"
+<Window x:Class="Avalonia.Generics.Dialogs.MessageBox"
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
         xmlns:mda="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
         xmlns:mdix="using:Material.Icons.Avalonia"
         MaxWidth="500"
@@ -107,13 +107,13 @@
                    Source="/Assets/icon.ico" />
 
             <mdix:MaterialIcon Name="MaterialIco"
-                               IsVisible="False"
                                Width="24"
                                Height="24"
                                Margin="5,3,3,3"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               IsHitTestVisible="False" />
+                               IsHitTestVisible="False"
+                               IsVisible="False" />
 
             <TextBlock Name="TitleBox"
                        Grid.Column="1"

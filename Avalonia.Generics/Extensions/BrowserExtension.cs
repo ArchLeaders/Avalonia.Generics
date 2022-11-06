@@ -28,7 +28,7 @@ namespace Avalonia.Generics.Extensions
         {
             title ??= browser.ToString().Replace("F", " F");
 
-            IStorageProvider StorageProvider = App.GetTopLevel().StorageProvider;
+            IStorageProvider StorageProvider = App.TopLevel.StorageProvider;
 
             object? result = browser switch
             {

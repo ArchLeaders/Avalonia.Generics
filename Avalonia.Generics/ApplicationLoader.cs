@@ -6,7 +6,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.VisualTree;
 
-namespace AvaloniaGenerics
+namespace Avalonia.Generics
 {
     /// <summary>
     /// <see cref="AvaloniaGenerics"/> initialization class.
@@ -15,12 +15,12 @@ namespace AvaloniaGenerics
     {
         public static void Attach(Application app)
         {
-            if (app.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
-                App.DefaultIcon = new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>()!.Open(new($"avares://AvaloniaGenerics/Assets/avalonia.ico")));
+            if (app.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop && desktop.MainWindow != null) {
+                App.DefaultIcon = new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>()!.Open(new($"avares://Avalonia.Generics/Assets/avalonia.ico")));
                 App.View = desktop.MainWindow;
 
-                // Read app icon
-                if (App.View?.Icon != null) {
+                // Load app icon
+                if (App.View.Icon != null) {
                     using MemoryStream stream = new();
                     App.View.Icon.Save(stream);
                     stream.Position = 0;

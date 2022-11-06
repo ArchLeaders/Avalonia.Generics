@@ -4,9 +4,9 @@ using Avalonia.Layout;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Material.Icons;
-using Material.Icons.Avalonia;
+using Material.Icons;
 
-namespace AvaloniaGenerics.Dialogs
+namespace Avalonia.Generics.Dialogs
 {
     public partial class InputDialog : Window
     {
@@ -23,7 +23,7 @@ namespace AvaloniaGenerics.Dialogs
 
             if (icon != null) {
                 this.FindControl<Image>("DefaultIco")!.IsVisible = false;
-                MaterialIcon materialIco = this.FindControl<MaterialIcon>("MaterialIco")!;
+                Material.Icons.Avalonia.MaterialIcon materialIco = this.FindControl<Material.Icons.Avalonia.MaterialIcon>("MaterialIco")!;
                 materialIco.IsVisible = true;
                 materialIco.Kind = (MaterialIconKind)icon;
             }
@@ -88,8 +88,8 @@ namespace AvaloniaGenerics.Dialogs
             var tcs = new TaskCompletionSource<MessageBoxResult>();
             dialog.Closed += delegate { tcs.TrySetResult(res); };
 
-            if (View != null) {
-                await dialog.ShowDialog(View);
+            if (App.View != null) {
+                await dialog.ShowDialog(App.View);
             }
             else {
                 dialog.Show();

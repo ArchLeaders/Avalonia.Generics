@@ -5,9 +5,8 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using Markdown.Avalonia;
 using Material.Icons;
-using Material.Icons.Avalonia;
 
-namespace AvaloniaGenerics.Dialogs
+namespace Avalonia.Generics.Dialogs
 {
     public enum MessageBoxButtons { Ok, OkCancel, YesNo, YesNoCancel }
     public enum MessageBoxResult { Cancel, No, Ok, Yes }
@@ -22,7 +21,7 @@ namespace AvaloniaGenerics.Dialogs
 
             if (icon != null) {
                 this.FindControl<Image>("DefaultIco")!.IsVisible = false;
-                MaterialIcon materialIco = this.FindControl<MaterialIcon>("MaterialIco")!;
+                Material.Icons.Avalonia.MaterialIcon materialIco = this.FindControl<Material.Icons.Avalonia.MaterialIcon>("MaterialIco")!;
                 materialIco.IsVisible = true;
                 materialIco.Kind = (MaterialIconKind)icon;
             }
@@ -105,8 +104,8 @@ namespace AvaloniaGenerics.Dialogs
             var tcs = new TaskCompletionSource<MessageBoxResult>();
             msgbox.Closed += delegate { tcs.TrySetResult(res); };
 
-            if (View != null) {
-                await msgbox.ShowDialog(View);
+            if (App.View != null) {
+                await msgbox.ShowDialog(App.View);
             }
             else {
                 msgbox.Show();

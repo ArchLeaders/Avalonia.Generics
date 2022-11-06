@@ -6,7 +6,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using System.Reflection;
 
-namespace AvaloniaGenerics.Dialogs
+namespace Avalonia.Generics.Dialogs
 {
     public partial class GenericDialog : Window
     {

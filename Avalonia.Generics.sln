@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Generics", "Avalonia.Generics\Avalonia.Generics.csproj", "{D9FA05EC-C04E-4121-8662-DE966511250C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaGenerics.Demo", "AvaloniaGenerics.Demo\AvaloniaGenerics.Demo.csproj", "{E7009DEC-F2C5-4EE9-B874-6BA85A0C7EE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalonia.Generics.Demo", "AvaloniaGenerics.Demo\Avalonia.Generics.Demo.csproj", "{E7009DEC-F2C5-4EE9-B874-6BA85A0C7EE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

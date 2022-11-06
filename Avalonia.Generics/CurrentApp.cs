@@ -1,4 +1,6 @@
-﻿global using static AvaloniaGenerics.CurrentApp;
+﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+global using static Avalonia.Generics.CurrentApp;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
@@ -8,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AvaloniaGenerics
+namespace Avalonia.Generics
 {
     internal class CurrentApp
     {
