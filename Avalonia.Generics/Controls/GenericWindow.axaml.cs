@@ -4,6 +4,7 @@ using Avalonia.Generics.Dialogs;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.MenuFactory;
 using Avalonia.Platform;
 using System.Reflection;
 
@@ -13,11 +14,12 @@ namespace Avalonia.Generics.Controls
     {
         public DialogResult Result { get; set; }
 
-        public GenericWindow() => throw new NotImplementedException();
-        public GenericWindow(string? title, object? content, object? menu, object? chrome, bool canResize = false, bool canMinimize = true, double minWidth = 0, double minHeight = 0, double maxWidth = double.NaN, double maxHeight = double.NaN, IImage? icon = null)
+        public GenericWindow() => InitializeComponent();
+        internal GenericWindow(
+            string? title, object? content, object? menu, object? chrome, bool canResize = false, bool canMinimize = true, double minWidth = 0, double minHeight = 0, double maxWidth = double.NaN, double maxHeight = double.NaN, IImage? icon = null)
         {
             InitializeComponent();
-            DataContext = this;
+
             MinWidth = minWidth;
             MinHeight = minHeight;
             MaxWidth = maxWidth;
@@ -43,6 +45,12 @@ namespace Avalonia.Generics.Controls
             // Load icon
             DialogIcon.Source = icon ?? App.Icon ?? App.DefaultIcon;
             Icon = new((IBitmap)DialogIcon.Source);
+
+            // Load Menu
+            if (menu != null) {
+                TitleBox.IsVisible = false;
+                RootMenu.Items = MenuFactory.MenuFactory.Generate(menu);
+            }
 
             // Load content
             Content.Content = content;

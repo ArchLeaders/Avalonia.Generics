@@ -22,14 +22,24 @@
                 Opacity="0.6" />
 
         <Grid ColumnDefinitions="Auto,*">
-            <StackPanel IsHitTestVisible="False" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
                 <Image Name="DialogIcon"
                        Width="22"
-                       Margin="4" />
+                       Margin="4"
+                       IsHitTestVisible="False" />
+                <mdix:MaterialIcon Name="MaterialIcon"
+                                   Width="22"
+                                   Margin="4"
+                                   IsHitTestVisible="False"
+                                   IsVisible="False" />
                 <TextBlock Name="TitleBox"
                            Margin="4,0"
                            VerticalAlignment="Center"
-                           FontSize="14" />
+                           FontSize="14"
+                           IsHitTestVisible="False" />
+                <Menu Name="RootMenu"
+                      Height="30"
+                      Margin="4,0" />
             </StackPanel>
             <StackPanel Name="ChromeButtons"
                         Grid.Column="1"

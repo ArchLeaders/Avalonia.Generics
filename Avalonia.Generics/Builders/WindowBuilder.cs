@@ -1,23 +1,15 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Generics.Controls;
+using Avalonia.Generics.Dialogs;
 using Avalonia.Media;
-using Avalonia.MenuFactory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
+using Material.Icons;
 
 namespace Avalonia.Generics.Builders
 {
     public class WindowBuilder
     {
-        private readonly Dictionary<string, object> Properties = new() {
-            { "canResize", true },
-            { "canMinimize", true },
-            { "maxWidth", double.NaN },
-            { "maxHeight", double.NaN }
-        };
+        private readonly GenericWindow Window = new();
 
         /// <summary>
         /// Adds a <see cref="string"/> Title to the current <see cref="WindowBuilder"/>
@@ -25,7 +17,9 @@ namespace Avalonia.Generics.Builders
         /// <param name="title"></param>
         public WindowBuilder WithTitle(string title)
         {
-            Properties[nameof(title)] = title;
+            // Properties[nameof(title)] = title;
+            Window.Title = title;
+            Window.TitleBox.Text = title;
             return this;
         }
 
@@ -35,7 +29,21 @@ namespace Avalonia.Generics.Builders
         /// <param name="icon"></param>
         public WindowBuilder WithIcon(IImage icon)
         {
-            Properties[nameof(icon)] = icon;
+            Window.DialogIcon.Source = icon;
+            Window.Icon = new((IBitmap)Window.DialogIcon.Source);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a <see cref="MaterialIconKind"/> icon to the current <see cref="WindowBuilder"/>
+        /// <para><i>Note: <see cref="MaterialIconKind"/> icons don't support setting the Taskbar Icon, which will be set the parent app icon when possible.</i></para>
+        /// </summary>
+        /// <param name="icon"></param>
+        public WindowBuilder WithIcon(MaterialIconKind icon)
+        {
+            Window.DialogIcon.IsVisible = false;
+            Window.MaterialIcon.IsVisible = true;
+            Window.MaterialIcon.Kind = icon;
             return this;
         }
 
@@ -45,7 +53,7 @@ namespace Avalonia.Generics.Builders
         /// <param name="content"></param>
         public WindowBuilder WithContent(object content)
         {
-            Properties[nameof(content)] = content;
+            Window.Content.Content = content;
             return this;
         }
 
@@ -55,7 +63,8 @@ namespace Avalonia.Generics.Builders
         /// <param name="menuFactory">A class instance defining the <see cref="MenuItem"/>s as <see cref="MenuFactory.Attributes.MenuAttribute"/> attributed methods</param>
         public WindowBuilder WithMenu(object menuFactory)
         {
-            Properties[nameof(menuFactory)] = menuFactory;
+            Window.TitleBox.IsVisible = false;
+            Window.RootMenu.Items = MenuFactory.MenuFactory.Generate(menuFactory);
             return this;
         }
 
@@ -65,7 +74,6 @@ namespace Avalonia.Generics.Builders
         /// <param name="title"></param>
         public WindowBuilder WithChromeBar(object chromeFactory)
         {
-            Properties[nameof(chromeFactory)] = chromeFactory;
             return this;
         }
 
@@ -76,8 +84,8 @@ namespace Avalonia.Generics.Builders
         /// <param name="minHeight"></param>
         public WindowBuilder WithMinBounds(double minWidth, double minHeight)
         {
-            Properties[nameof(minWidth)] = minWidth;
-            Properties[nameof(minHeight)] = minHeight;
+            Window.MinWidth = minWidth;
+            Window.MinHeight = minHeight;
             return this;
         }
 
@@ -88,20 +96,23 @@ namespace Avalonia.Generics.Builders
         /// <param name="maxHeight"></param>
         public WindowBuilder WithMaxBounds(double maxWidth, double maxHeight)
         {
-            Properties[nameof(maxWidth)] = maxWidth;
-            Properties[nameof(maxHeight)] = maxHeight;
+            Window.MaxWidth = maxWidth;
+            Window.MaxHeight = maxHeight;
             return this;
         }
 
         /// <summary>
-        /// Adds window resize rules to the current <see cref="WindowBuilder"/>
+        /// Adds window rules to the current <see cref="WindowBuilder"/>
         /// </summary>
         /// <param name="canResize"></param>
         /// <param name="canMinimize"></param>
-        public WindowBuilder WithResizeRules(bool canResize = false, bool canMinimize = true)
+        /// <param name="showInTaskbar"></param>
+        public WindowBuilder WithWindowRules(bool canResize = false, bool canMinimize = true, bool showInTaskbar = true)
         {
-            Properties[nameof(canResize)] = canResize;
-            Properties[nameof(canMinimize)] = canMinimize;
+            Window.CanResize = canResize;
+            Window.Fullscreen.IsVisible = canResize;
+            Window.Minimize.IsVisible = canMinimize;
+            Window.ShowInTaskbar = showInTaskbar;
             return this;
         }
 
@@ -111,29 +122,28 @@ namespace Avalonia.Generics.Builders
         /// <returns></returns>
         public Window Build()
         {
-            return new GenericWindow(
-                Get<string>("title"),
-                Get<object>("content"),
-                Get<object>("menuFactory"),
-                Get<object>("chromeFactory"),
-                Get<bool>("canResize"),
-                Get<bool>("canMinimize"),
-                Get<double>("minWidth"),
-                Get<double>("minHeight"),
-                Get<double>("maxWidth"),
-                Get<double>("maxHeight"),
-                Get<IImage>("icon")
-            );
-        }
+            // Initialize chrome events
+            Window.Minimize.Click += (s, e) => Window.WindowState = WindowState.Minimized;
+            Window.Fullscreen.Click += (s, e) => Window.WindowState = Window.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+            Window.Quit.Click += (s, e) => {
+                Window.Result = DialogResult.Cancel;
+                Window.Close();
+            };
 
-        internal T? Get<T>(string key)
-        {
-            if (Properties.ContainsKey(key)) {
-                return (T)Properties[key];
+            // Set OnLoad events
+            Window.Loaded += (s, e) => {
+                Window.MinWidth = Window.MinWidth == 0 ? Window.Bounds.Width : Window.MinWidth;
+                Window.MinHeight = Window.MinHeight == 0 ? Window.Bounds.Height : Window.MinHeight;
+            };
+
+            // Check icon
+            if (Window.Icon == null) {
+                Window.DialogIcon.Source = App.Icon ?? App.DefaultIcon;
+                Window.Icon = new((IBitmap)Window.DialogIcon.Source);
             }
-            else {
-                return default;
-            }
+
+            // Return built window
+            return Window;
         }
     }
 }
