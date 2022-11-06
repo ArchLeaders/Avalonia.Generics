@@ -9,7 +9,7 @@ using Material.Icons;
 namespace Avalonia.Generics.Dialogs
 {
     public enum MessageBoxButtons { Ok, OkCancel, YesNo, YesNoCancel }
-    public enum MessageBoxResult { Cancel, No, Ok, Yes }
+    public enum DialogResult { Cancel, No, Ok, Yes }
     public enum Formatting { None, Markdown }
 
     public partial class MessageBox : Window
@@ -56,20 +56,20 @@ namespace Avalonia.Generics.Dialogs
             Dispatcher.UIThread.MainLoop(source.Token);
         }
 
-        public static async Task<MessageBoxResult> Show(string text, string title = "Notice", MessageBoxButtons buttons = MessageBoxButtons.Ok, Formatting formatting = Formatting.None, MaterialIconKind? icon = null)
+        public static async Task<DialogResult> Show(string text, string title = "Notice", MessageBoxButtons buttons = MessageBoxButtons.Ok, Formatting formatting = Formatting.None, MaterialIconKind? icon = null)
         {
             MessageBox msgbox = new(title, text, formatting, icon);
-            var res = MessageBoxResult.Ok;
+            var res = DialogResult.Ok;
 
             var buttonPanel = msgbox.FindControl<StackPanel>("Buttons")!;
             var close = msgbox.FindControl<Button>("Close")!;
 
             close.Click += (_, __) => {
-                res = MessageBoxResult.Cancel;
+                res = DialogResult.Cancel;
                 msgbox.Close();
             };
 
-            void AddBtn(string caption, MessageBoxResult r, bool def = false, int mode = 0)
+            void AddBtn(string caption, DialogResult r, bool def = false, int mode = 0)
             {
                 var btn = new Button {
                     Content = caption,
@@ -90,18 +90,18 @@ namespace Avalonia.Generics.Dialogs
             }
 
             if (buttons == MessageBoxButtons.Ok || buttons == MessageBoxButtons.OkCancel)
-                AddBtn("Ok", MessageBoxResult.Ok, true, 1);
+                AddBtn("Ok", DialogResult.Ok, true, 1);
 
             if (buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel) {
-                AddBtn("Yes", MessageBoxResult.Yes, mode: 1);
-                AddBtn("No", MessageBoxResult.No, true);
+                AddBtn("Yes", DialogResult.Yes, mode: 1);
+                AddBtn("No", DialogResult.No, true);
             }
 
             if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel)
-                AddBtn("Cancel", MessageBoxResult.Cancel, true, 2);
+                AddBtn("Cancel", DialogResult.Cancel, true, 2);
 
 
-            var tcs = new TaskCompletionSource<MessageBoxResult>();
+            var tcs = new TaskCompletionSource<DialogResult>();
             msgbox.Closed += delegate { tcs.TrySetResult(res); };
 
             if (App.View != null) {

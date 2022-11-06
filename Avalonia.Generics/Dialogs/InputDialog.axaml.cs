@@ -52,17 +52,17 @@ namespace Avalonia.Generics.Dialogs
         public static async Task<Dictionary<string, string>?> Show(Dictionary<string, string> root, string title = "Input Dialog", MaterialIconKind? icon = null)
         {
             InputDialog dialog = new(root, title, icon);
-            var res = MessageBoxResult.Ok;
+            var res = DialogResult.Ok;
 
             var buttonPanel = dialog.FindControl<StackPanel>("Buttons")!;
             var close = dialog.FindControl<Button>("Close")!;
 
             close.Click += (_, __) => {
-                res = MessageBoxResult.Cancel;
+                res = DialogResult.Cancel;
                 dialog.Close();
             };
 
-            void AddBtn(string caption, MessageBoxResult r, bool def = false, int mode = 0)
+            void AddBtn(string caption, DialogResult r, bool def = false, int mode = 0)
             {
                 var btn = new Button {
                     Content = caption,
@@ -82,10 +82,10 @@ namespace Avalonia.Generics.Dialogs
                 if (def) res = r;
             }
 
-            AddBtn("Ok", MessageBoxResult.Ok, true, 1);
-            AddBtn("Cancel", MessageBoxResult.Cancel, true, 2);
+            AddBtn("Ok", DialogResult.Ok, true, 1);
+            AddBtn("Cancel", DialogResult.Cancel, true, 2);
 
-            var tcs = new TaskCompletionSource<MessageBoxResult>();
+            var tcs = new TaskCompletionSource<DialogResult>();
             dialog.Closed += delegate { tcs.TrySetResult(res); };
 
             if (App.View != null) {
@@ -95,7 +95,7 @@ namespace Avalonia.Generics.Dialogs
                 dialog.Show();
             }
 
-            if ((await tcs.Task) == MessageBoxResult.Ok) {
+            if ((await tcs.Task) == DialogResult.Ok) {
                 return dialog.DataRoot;
             }
 
