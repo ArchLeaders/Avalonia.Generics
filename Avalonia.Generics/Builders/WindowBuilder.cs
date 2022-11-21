@@ -69,11 +69,11 @@ namespace Avalonia.Generics.Builders
         /// <summary>
         /// Adds a Menu object to the current <see cref="WindowBuilder"/> to be parsed by the <see cref="MenuFactory.MenuFactory"/> default implementation
         /// </summary>
-        /// <param name="menuFactory">A class instance defining the <see cref="MenuItem"/>s as <see cref="MenuFactory.Attributes.MenuAttribute"/> attributed methods</param>
-        public WindowBuilder WithMenu(object menuFactory)
+        /// <param name="menuFactoryModel">A class instance defining the <see cref="MenuItem"/>s as <see cref="MenuFactory.Attributes.MenuAttribute"/> attributed methods</param>
+        public WindowBuilder WithMenu(object menuFactoryModel)
         {
             Window.TitleBox.IsVisible = false;
-            Window.RootMenu.Items = MenuFactory.MenuFactory.Generate(menuFactory);
+            Window.RootMenu.Items = MenuFactory.MenuFactory.Generate(menuFactoryModel);
             return this;
         }
 
