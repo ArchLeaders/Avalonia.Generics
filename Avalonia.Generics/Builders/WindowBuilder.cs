@@ -138,6 +138,15 @@ namespace Avalonia.Generics.Builders
             return this;
         }
 
+        /// <summary>
+        /// Adds a default With and Height to the current <see cref="WindowBuilder"/>
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public WindowBuilder WithDefaultBounds(double width, double height)
+        {
+            Window.Width = width;
+            Window.Height = height;
             return this;
         }
 
