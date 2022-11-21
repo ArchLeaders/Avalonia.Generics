@@ -102,17 +102,36 @@ namespace Avalonia.Generics.Builders
         }
 
         /// <summary>
-        /// Adds window rules to the current <see cref="WindowBuilder"/>
+        /// Adds window options to the current <see cref="WindowBuilder"/>
         /// </summary>
         /// <param name="canResize"></param>
         /// <param name="canMinimize"></param>
         /// <param name="showInTaskbar"></param>
-        public WindowBuilder WithWindowRules(bool canResize = false, bool canMinimize = true, bool showInTaskbar = true)
+        public WindowBuilder WithWindowOptions(bool canResize = false, bool canMinimize = true, bool showInTaskbar = true, bool canClose = true, SizeToContent sizeToContent = SizeToContent.Manual)
         {
             Window.CanResize = canResize;
             Window.Fullscreen.IsVisible = canResize;
             Window.Minimize.IsVisible = canMinimize;
             Window.ShowInTaskbar = showInTaskbar;
+            Window.Quit.IsVisible = canClose;
+            Window.SizeToContent = sizeToContent;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds window options to the current <see cref="WindowBuilder"/>
+        /// </summary>
+        public WindowBuilder WithWindowOptions(WindowOptions options)
+        {
+            Window.CanResize = options.CanResize;
+            Window.Fullscreen.IsVisible = options.CanResize;
+            Window.Minimize.IsVisible = options.CanMinimize;
+            Window.ShowInTaskbar = options.ShowInTaskbar;
+            Window.Quit.IsVisible = options.CanClose;
+            Window.SizeToContent = options.SizeToContent;
+            return this;
+        }
+
             return this;
         }
 
