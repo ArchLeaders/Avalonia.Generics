@@ -1,6 +1,11 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Generics.Controls;
 using Avalonia.Generics.Dialogs;
+using Avalonia.Generics.Extensions;
+using Avalonia.Generics.Factories;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Material.Icons;
@@ -12,9 +17,37 @@ namespace Avalonia.Generics.Builders
         private readonly GenericWindow Window = new();
 
         /// <summary>
+        /// Creates a new <see cref="WindowBuilder"/> instance with the <paramref name="baseWindow"/> properties
+        /// </summary>
+        public static WindowBuilder Initialize(Window baseWindow)
+        {
+            WindowBuilder windowBuilder = new();
+            windowBuilder.Window.DataContext = baseWindow.DataContext ?? baseWindow;
+            return windowBuilder
+                .WithDefaultBounds(baseWindow.Width, baseWindow.Height)
+                .WithMinBounds(baseWindow.MinWidth, baseWindow.MinHeight)
+                .WithMaxBounds(baseWindow.MaxWidth, baseWindow.MaxHeight)
+                .WithTitle(baseWindow.Title ?? "")
+                .WithIcon(baseWindow.Icon)
+                .WithWindowOptions(WindowOptions.Window)
+                .WithContent(baseWindow.Content ?? new TextBlock() {
+                    Text = "No Content Loaded",
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                });
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="WindowBuilder"/> instance
+        /// </summary>
+        public static WindowBuilder Initialize()
+        {
+            return new();
+        }
+
+        /// <summary>
         /// Adds a <see cref="string"/> Title to the current <see cref="WindowBuilder"/>
         /// </summary>
-        /// <param name="title"></param>
         public WindowBuilder WithTitle(string title)
         {
             // Properties[nameof(title)] = title;
@@ -47,7 +80,6 @@ namespace Avalonia.Generics.Builders
         /// Adds a <see cref="MaterialIconKind"/> icon to the current <see cref="WindowBuilder"/>
         /// <para><i>Note: <see cref="MaterialIconKind"/> icons don't support setting the Taskbar Icon, which will be set the parent app icon when possible.</i></para>
         /// </summary>
-        /// <param name="icon"></param>
         public WindowBuilder WithIcon(MaterialIconKind icon)
         {
             Window.DialogIcon.IsVisible = false;
@@ -59,7 +91,6 @@ namespace Avalonia.Generics.Builders
         /// <summary>
         /// Sets the current <see cref="WindowBuilder"/> contents
         /// </summary>
-        /// <param name="content"></param>
         public WindowBuilder WithContent(object content)
         {
             Window.Content.Content = content;
@@ -244,7 +275,7 @@ namespace Avalonia.Generics.Builders
                 Window.Result = DialogResult.Cancel;
                 Window.Close();
             };
-
+            
             // Set OnLoad events
             Window.Loaded += (s, e) => {
                 Window.MinWidth = Window.MinWidth == 0 ? Window.Bounds.Width : Window.MinWidth;
