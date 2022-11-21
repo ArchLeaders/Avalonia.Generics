@@ -11,7 +11,6 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="30"
         ExtendClientAreaToDecorationsHint="True"
-        SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         mc:Ignorable="d">
 
@@ -42,14 +41,15 @@
                       Height="30"
                       Margin="4,0" />
             </StackPanel>
-            <StackPanel Name="ChromeButtons"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        Orientation="Horizontal">
-                <StackPanel.Styles>
+            <Grid Grid.Column="1"
+                  HorizontalAlignment="Right"
+                  ColumnDefinitions="auto,auto">
+                <Grid.Styles>
                     <Style Selector="Button">
                         <Setter Property="Background" Value="Transparent" />
                         <Setter Property="CornerRadius" Value="0" />
+                        <Setter Property="Width" Value="40" />
+                        <Setter Property="Height" Value="30" />
                     </Style>
                     <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
                         <Setter Property="Background" Value="Transparent" />
@@ -61,28 +61,25 @@
                         <Setter Property="VerticalAlignment" Value="Center" />
                         <Setter Property="Margin" Value="0,1,0,0" />
                     </Style>
-                </StackPanel.Styles>
-                <Button Name="Minimize"
-                        Width="40"
-                        Height="30">
-                    <mdix:MaterialIcon Margin="0,2,0,0" Kind="Minus" />
-                </Button>
-                <Button Name="Fullscreen"
-                        Width="40"
-                        Height="30">
-                    <Grid>
-                        <mdix:MaterialIcon Name="ICON_Fullscreen" Kind="Fullscreen" />
-                        <mdix:MaterialIcon Name="ICON_Restore"
-                                           IsVisible="False"
-                                           Kind="WindowRestore" />
-                    </Grid>
-                </Button>
-                <Button Name="Quit"
-                        Width="40"
-                        Height="30">
-                    <mdix:MaterialIcon Kind="Close" />
-                </Button>
-            </StackPanel>
+                </Grid.Styles>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Name="Minimize">
+                        <mdix:MaterialIcon Margin="0,2,0,0" Kind="Minus" />
+                    </Button>
+                    <Button Name="Fullscreen">
+                        <Grid>
+                            <mdix:MaterialIcon Name="ICON_Fullscreen" Kind="Fullscreen" />
+                            <mdix:MaterialIcon Name="ICON_Restore"
+                                               IsVisible="False"
+                                               Kind="WindowRestore" />
+                        </Grid>
+                    </Button>
+                    <Button Name="Quit">
+                        <mdix:MaterialIcon Kind="Close" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Name="ChromeButtons" Orientation="Horizontal" />
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="1" RowDefinitions="*,auto">
@@ -104,6 +101,5 @@
             </StackPanel>
         </Grid>
 
-        <ContentControl Name="Content" Grid.Row="1" />
     </Grid>
 </Window>
