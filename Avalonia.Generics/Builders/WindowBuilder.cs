@@ -196,6 +196,29 @@ namespace Avalonia.Generics.Builders
             return this;
         }
 
+        /// <summary>
+        /// Sets the background and chrome color of the current <see cref="WindowBuilder"/>
+        /// </summary>
+        /// <param name="backgroundColor"></param>
+        /// <param name="chromeColor"></param>
+        /// <param name="chromeOpacity"></param>
+        public WindowBuilder WithWindowColors(string backgroundColor, string chromeColor, double chromeOpacity = 1.0D)
+        {
+            if (backgroundColor.Contains('#')) {
+                Window.Background = backgroundColor.GetBrush();
+            }
+            else {
+                Window[!TemplatedControl.BackgroundProperty] = backgroundColor.GetResource();
+            }
+
+            if (chromeColor.Contains('#')) {
+                Window.Chrome.Background = chromeColor.GetBrush();
+            }
+            else {
+                Window[!TemplatedControl.BackgroundProperty] = backgroundColor.GetResource();
+            }
+
+            Window.Chrome.Opacity = chromeOpacity;
             return this;
         }
 

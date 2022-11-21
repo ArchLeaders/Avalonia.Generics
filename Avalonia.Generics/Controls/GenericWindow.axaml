@@ -17,7 +17,8 @@
 
     <Grid RowDefinitions="30,*">
 
-        <Border Background="{DynamicResource SystemChromeHighColor}"
+        <Border Name="Chrome"
+                Background="{DynamicResource SystemChromeHighColor}"
                 IsHitTestVisible="False"
                 Opacity="0.6" />
 
