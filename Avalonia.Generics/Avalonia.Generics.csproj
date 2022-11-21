@@ -4,15 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Title>Avalonia Generics - Dialogs</Title>
+    <Title>Avalonia Generics</Title>
     <Authors>ArchLeaders</Authors>
-    <Description>Generic dialog wrapper for AvaloniaUI</Description>
+    <Description>Generic UI wrappers and helpers for AvaloniaUI</Description>
     <Copyright>(c) Arch Leaders</Copyright>
-    <PackageProjectUrl>https://github.com/ArchLeaders/AvaloniaGenerics/tree/master/AvaloniaGenerics.Dialogs</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/ArchLeaders/Avalonia.Generics</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/ArchLeaders/AvaloniaGenerics</RepositoryUrl>
-    <PackageTags>avaloniaui;generic;dialogs</PackageTags>
+    <RepositoryUrl>https://github.com/ArchLeaders/Avalonia.Generics</RepositoryUrl>
+    <PackageTags>avaloniaui;generic</PackageTags>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
