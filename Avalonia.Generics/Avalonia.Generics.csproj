@@ -16,7 +16,7 @@
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <IncludeSymbols>True</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
     <PackageId>AvaloniaGenerics</PackageId>
   </PropertyGroup>
 
