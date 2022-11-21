@@ -1,10 +1,10 @@
-# Avalonia Generics - Dialogs
+# Avalonia Generics
 
-**Avalonia Generics - Dialogs** is a helper libray that implements commonly used Dialog functions and Extensions like `MessageBox` and `BrowserDialog`.
+**Avalonia Generics** is a helper libray that implements commonly used functions and extensions like `MessageBox` and `BrowserDialog`.
 
 ## Usage
 
-The library needs to be initialized with the desktop window instance to attach the dialogs to, that can be done in the `App.axaml.cs` file as follows.
+The library needs to be initialized with the desktop window instance to attach dialogs to, that can be done in the `App.axaml.cs` file as follows.
 
 ```cs
 if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
@@ -15,7 +15,7 @@ if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
     };
 
     // Initialize the Dialogs library here
-    view.InitializeGenericDialogs();
+    ApplicationLoader.Attach(this);
 }
 ```
 
@@ -27,13 +27,13 @@ Install with NuGet or build from [source](https://github.com/ArchLeaders/Avaloni
 
 #### NuGet
 ```powershell
-Install-Package AvaloniaGenerics.Dialogs
+Install-Package AvaloniaGenerics
 ```
 
 #### Build from source
 ```batch
-git clone https://github.com/ArchLeaders/AvaloniaGenerics.git
-dotnet build AvaloniaGenerics/AvaloniaGenerics.Dialogs
+git clone https://github.com/ArchLeaders/Avalonia.Generics.git
+dotnet build Avalonia.Generics/Avalonia.Generics/
 ```
 
 ---
