@@ -3,12 +3,7 @@
 global using static Avalonia.Generics.CurrentApp;
 using Avalonia.Controls;
 using Avalonia.Media.Imaging;
-using Avalonia.VisualTree;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Avalonia.Platform;
 
 namespace Avalonia.Generics
 {
@@ -18,7 +13,7 @@ namespace Avalonia.Generics
 
         internal Window View { get; set; }
         internal Bitmap? Icon { get; set; }
-        internal Bitmap DefaultIcon { get; set; } = null!;
+        internal Bitmap DefaultIcon { get; set; } = new Bitmap(AvaloniaLocator.Current.GetService<IAssetLoader>()!.Open(new($"avares://Avalonia.Generics/Assets/avalonia.ico")));
         internal TopLevel TopLevel { get; set; } = null!;
     }
 }
