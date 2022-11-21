@@ -87,7 +87,57 @@ namespace Avalonia.Generics.Builders
             return this;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="click"></param>
+        /// <param name="mode">1 = IsDefault<para>2 = IsCancel</para></param>
+        /// <returns></returns>
+        public WindowBuilder WithButton(string content, EventHandler<RoutedEventArgs> click, int mode = 0)
         {
+            Window.ButtonStack.IsVisible = true;
+            var button = new Button {
+                Content = content, IsDefault = mode == 1, IsCancel = mode == 2
+            };
+            button.Click += click;
+            Window.ButtonStack.Children.Add(button);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the DialogButtons set to the current <see cref="WindowBuilder"/>
+        /// </summary>
+        /// <param name="title"></param>
+        public WindowBuilder WithDialogButtons(DialogButtons buttons)
+        {
+            if (buttons == DialogButtons.Ok || buttons == DialogButtons.OkCancel)
+                WithButton(DialogResult.Ok.ToString(), (s, e) => {
+                    Window.Result = DialogResult.Ok;
+                    Window.Close();
+                }, 1);
+
+            if (buttons == DialogButtons.YesNo || buttons == DialogButtons.YesNoCancel) {
+                WithButton(DialogResult.Yes.ToString(), (s, e) => {
+                    Window.Result = DialogResult.Yes;
+                    Window.Close();
+                }, 1);
+                WithButton(DialogResult.No.ToString(), (s, e) => {
+                    Window.Result = DialogResult.No;
+                    Window.Close();
+                }, 0);
+            }
+
+            if (buttons == DialogButtons.OkCancel || buttons == DialogButtons.YesNoCancel) {
+                WithButton(DialogResult.Cancel.ToString(), (s, e) => {
+                    Window.Result = DialogResult.Cancel;
+                    Window.Close();
+                }, 2);
+            }
+
+            return this;
+        }
+
             return this;
         }
 
