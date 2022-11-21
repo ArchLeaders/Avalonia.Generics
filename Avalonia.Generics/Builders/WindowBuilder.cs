@@ -26,7 +26,16 @@ namespace Avalonia.Generics.Builders
         /// <summary>
         /// Adds an <see cref="IImage"/> icon to the current <see cref="WindowBuilder"/>
         /// </summary>
-        /// <param name="icon"></param>
+        public WindowBuilder WithIcon(WindowIcon? icon)
+        {
+            Window.DialogIcon.Source = ApplicationLoader.GetWindowIcon(icon) ?? App.DefaultIcon;
+            Window.Icon = icon;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an <see cref="IImage"/> icon to the current <see cref="WindowBuilder"/>
+        /// </summary>
         public WindowBuilder WithIcon(IImage icon)
         {
             Window.DialogIcon.Source = icon;
