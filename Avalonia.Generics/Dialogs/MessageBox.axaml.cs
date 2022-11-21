@@ -8,9 +8,7 @@ using Material.Icons;
 
 namespace Avalonia.Generics.Dialogs
 {
-    public enum MessageBoxButtons { Ok, OkCancel, YesNo, YesNoCancel }
-    public enum DialogResult { Cancel, No, Ok, Yes }
-    public enum Formatting { None, Markdown }
+    public partial class MessageBox : UserControl
 
     public partial class MessageBox : Window
     {
