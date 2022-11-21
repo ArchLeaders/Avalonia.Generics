@@ -81,7 +81,12 @@ namespace Avalonia.Generics.Builders
         /// <!-- Adds a Menu object to the current <see cref="WindowBuilder"/> to be parsed by the <see cref="MenuFactory.MenuFactory"/> default implementation -->
         /// </summary>
         /// <param name="title"></param>
-        public WindowBuilder WithChromeBar(object chromeFactory)
+        public WindowBuilder WithChromeBar(object chromeFactoryModel)
+        {
+            ChromeFactory.Generate(Window, chromeFactoryModel);
+            return this;
+        }
+
         {
             return this;
         }
