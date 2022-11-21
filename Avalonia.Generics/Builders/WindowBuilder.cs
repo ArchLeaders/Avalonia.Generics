@@ -120,7 +120,7 @@ namespace Avalonia.Generics.Builders
         /// Builds the current <see cref="WindowBuilder"/> into a <see cref="GenericWindow"/> control
         /// </summary>
         /// <returns></returns>
-        public Window Build()
+        public GenericWindow Build()
         {
             // Initialize chrome events
             Window.Minimize.Click += (s, e) => Window.WindowState = WindowState.Minimized;
