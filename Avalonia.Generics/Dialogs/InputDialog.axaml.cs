@@ -1,34 +1,20 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Layout;
-using Avalonia.Markup.Xaml;
-using Avalonia.Threading;
-using Material.Icons;
-using Material.Icons;
+using Avalonia.Generics.Builders;
+using Avalonia.Generics.Controls;
 
 namespace Avalonia.Generics.Dialogs
 {
-    public partial class InputDialog : Window
+    public partial class InputDialog : UserControl
     {
-        private Dictionary<string, string> DataRoot { get; set; } = new();
+        private Dictionary<string, string> InputMap { get; set; } = new();
 
-        public InputDialog() => AvaloniaXamlLoader.Load(this);
-        public InputDialog(Dictionary<string, string> root, string title, MaterialIconKind? icon = null)
+        public InputDialog() { }
+        public InputDialog(Dictionary<string, string> inputMap)
         {
-            AvaloniaXamlLoader.Load(this);
-            DataRoot = root;
+            InitializeComponent();
+            InputMap = inputMap;
 
-            StackPanel uiRoot = this.FindControl<StackPanel>("Root")!;
-            this.FindControl<TextBlock>("TitleBox")!.Text = title;
-
-            if (icon != null) {
-                this.FindControl<Image>("DefaultIco")!.IsVisible = false;
-                Material.Icons.Avalonia.MaterialIcon materialIco = this.FindControl<Material.Icons.Avalonia.MaterialIcon>("MaterialIco")!;
-                materialIco.IsVisible = true;
-                materialIco.Kind = (MaterialIconKind)icon;
-            }
-
-            foreach ((var key, var value) in DataRoot) {
+            foreach ((var key, var value) in InputMap) {
 
                 var tb = new TextBox() {
                     Watermark = key,
@@ -37,66 +23,28 @@ namespace Avalonia.Generics.Dialogs
                     UseFloatingWatermark = true
                 };
 
-                tb.GetObservable(TextBlock.TextProperty).Subscribe(x => DataRoot[key] = x!);
-                uiRoot.Children.Add(tb);
+                tb.GetObservable(TextBlock.TextProperty).Subscribe(x => InputMap[key] = x!);
+                Root.Children.Add(tb);
             }
         }
 
-        public static void ShowSync(Dictionary<string, string> root, string title = "Input Dialog", MaterialIconKind? icon = null)
+        public static async Task<Dictionary<string, string>?> ShowDialog(Dictionary<string, string> inputMap, string title, DialogButtons dialogButtons = DialogButtons.OkCancel, WindowOptions? options = null)
         {
-            using var source = new CancellationTokenSource();
-            Show(root, title, icon).ContinueWith(t => source.Cancel(), TaskScheduler.FromCurrentSynchronizationContext());
-            Dispatcher.UIThread.MainLoop(source.Token);
-        }
+            options ??= WindowOptions.Dialog;
+            InputDialog dialog = new(inputMap);
+            GenericWindow window = new WindowBuilder()
+                .WithContent(dialog)
+                .WithTitle(title)
+                .WithWindowOptions(options)
+                .WithMaxBounds(options.CanResize ? double.NaN : 250, options.CanResize ? double.NaN : 300)
+                .WithMinBounds(250, 300)
+                .WithDialogButtons(dialogButtons)
+                .Build();
 
-        public static async Task<Dictionary<string, string>?> Show(Dictionary<string, string> root, string title = "Input Dialog", MaterialIconKind? icon = null)
-        {
-            InputDialog dialog = new(root, title, icon);
-            var res = DialogResult.Ok;
+            await window.ShowDialog(App.View);
 
-            var buttonPanel = dialog.FindControl<StackPanel>("Buttons")!;
-            var close = dialog.FindControl<Button>("Close")!;
-
-            close.Click += (_, __) => {
-                res = DialogResult.Cancel;
-                dialog.Close();
-            };
-
-            void AddBtn(string caption, DialogResult r, bool def = false, int mode = 0)
-            {
-                var btn = new Button {
-                    Content = caption,
-                    HorizontalContentAlignment = HorizontalAlignment.Center,
-                    Margin = new Thickness(10, 0, 0, 0),
-                    MinWidth = 67,
-                    IsDefault = mode == 1,
-                    IsCancel = mode == 2
-                };
-
-                btn.Click += (_, __) => {
-                    res = r;
-                    dialog.Close();
-                };
-
-                buttonPanel.Children.Add(btn);
-                if (def) res = r;
-            }
-
-            AddBtn("Ok", DialogResult.Ok, true, 1);
-            AddBtn("Cancel", DialogResult.Cancel, true, 2);
-
-            var tcs = new TaskCompletionSource<DialogResult>();
-            dialog.Closed += delegate { tcs.TrySetResult(res); };
-
-            if (App.View != null) {
-                await dialog.ShowDialog(App.View);
-            }
-            else {
-                dialog.Show();
-            }
-
-            if ((await tcs.Task) == DialogResult.Ok) {
-                return dialog.DataRoot;
+            if (window.Result != DialogResult.Cancel && window.Result != DialogResult.No) {
+                return dialog.InputMap;
             }
 
             return null;
