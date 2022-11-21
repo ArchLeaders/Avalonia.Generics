@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Generics.Demo.ViewModels;
 using Avalonia.Generics.Demo.Views;
 using Avalonia.Generics.Dialogs;
+using Avalonia.Generics.Builders;
 
 namespace Avalonia.Generics.Demo
 {
@@ -16,11 +17,12 @@ namespace Avalonia.Generics.Demo
 
         public override void OnFrameworkInitializationCompleted()
         {
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
                 MainWindow view = new() {
                     DataContext = new MainWindowViewModel(),
                 };
-                desktop.MainWindow = view;
+                desktop.MainWindow = WindowBuilder.Initialize(view).Build();
             }
 
             ApplicationLoader.Attach(this);
