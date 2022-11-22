@@ -80,16 +80,16 @@ namespace Avalonia.Generics.Dialogs
 
             if (result is IReadOnlyList<IStorageFolder> folders && folders.Count > 0) {
                 SetLastDirectory(folders[folders.Count - 1]);
-                return folders.Select(folder => folder.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : folder.Name);
+                return folders.Select(folder => folder.TryGetUri(out Uri? uri) ? uri.LocalPath : folder.Name);
             }
             else if (result is IReadOnlyList<IStorageFile> files && files.Count > 0) {
                 SetLastDirectory(await files[files.Count - 1].GetParentAsync());
-                return files.Select(file => file.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : file.Name);
+                return files.Select(file => file.TryGetUri(out Uri? uri) ? uri.LocalPath : file.Name);
             }
             else if (result is IStorageFile file) {
                 SetLastDirectory(await file.GetParentAsync());
                 return new string[1] {
-                    file.TryGetUri(out Uri? uri) ? uri.AbsoluteUri : file.Name
+                    file.TryGetUri(out Uri? uri) ? uri.LocalPath : file.Name
                 };
             }
             else {
@@ -146,6 +146,8 @@ namespace Avalonia.Generics.Dialogs
                             Patterns = pair[1].Split(';')
                         };
                     }
+
+                    return types;
                 }
                 catch {
                     throw new FormatException(
