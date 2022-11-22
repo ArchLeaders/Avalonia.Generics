@@ -12,6 +12,9 @@ namespace Avalonia.Generics.Demo.ViewModels
     {
         public async void Click()
         {
+            string? str = await new BrowserDialog(BrowserMode.OpenFile, "Opne some file", "Actor Packs:*.sbactorpack;*.bactorpack").ShowDialog();
+            await MessageBox.ShowDialog(str ?? "null");
+
             GenericWindow window = new WindowBuilder()
                 .WithTitle("Hello World")
                 .WithContent(new Button() {
