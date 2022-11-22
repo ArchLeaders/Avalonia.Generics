@@ -41,14 +41,14 @@ namespace Avalonia.Generics.Dialogs
             }
         }
 
-        /// <inheritdoc cref="ShowDialog(BrowserDialog, string?, string?, bool)"/>
+        /// <inheritdoc cref="ShowDialog(bool)"/>
         public async Task<string?> ShowDialog()
         {
             return (await ShowDialog(false))?.First();
         }
 
         /// <summary>
-        /// Opens a new <paramref name="browser"/> dialog and returns the selected files/folders.
+        /// Opens a new <see cref="IStorageProvider"/> dialog and returns the selected files/folders.
         /// </summary>
         /// <param name="allowMultiple"></param>
         /// <returns></returns>
