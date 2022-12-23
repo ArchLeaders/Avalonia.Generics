@@ -255,7 +255,7 @@ namespace Avalonia.Generics.Builders
                 Window.Chrome.Background = chromeColor.GetBrush();
             }
             else {
-                Window.Chrome[!TemplatedControl.BackgroundProperty] = backgroundColor.GetResource();
+                Window.Chrome[!TemplatedControl.BackgroundProperty] = chromeColor.GetResource();
             }
 
             Window.Chrome.Opacity = chromeOpacity;

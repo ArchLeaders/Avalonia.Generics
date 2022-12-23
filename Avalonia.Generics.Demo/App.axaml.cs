@@ -22,7 +22,7 @@ namespace Avalonia.Generics.Demo
                 MainWindow view = new() {
                     DataContext = new MainWindowViewModel(),
                 };
-                desktop.MainWindow = WindowBuilder.Initialize(view).WithWindowColors("SystemChromeLowColor", "SystemChromeLowColor").Build();
+                desktop.MainWindow = WindowBuilder.Initialize(view).WithWindowColors("SystemChromeLowColor", "SystemChromeMediumColor").Build();
             }
 
             ApplicationLoader.Attach(this);
