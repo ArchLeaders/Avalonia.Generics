@@ -93,7 +93,7 @@ namespace Avalonia.Generics.Builders
         /// </summary>
         public WindowBuilder WithContent(object content)
         {
-            Window.Content.Content = content;
+            Window.LayoutRoot.Content = content;
             return this;
         }
 
@@ -129,7 +129,9 @@ namespace Avalonia.Generics.Builders
         {
             Window.ButtonStack.IsVisible = true;
             var button = new Button {
-                Content = content, IsDefault = mode == 1, IsCancel = mode == 2
+                Content = content,
+                IsDefault = mode == 1,
+                IsCancel = mode == 2
             };
             button.Click += click;
             Window.ButtonStack.Children.Add(button);
@@ -275,7 +277,7 @@ namespace Avalonia.Generics.Builders
                 Window.Result = DialogResult.Cancel;
                 Window.Close();
             };
-            
+
             // Set OnLoad events
             Window.Loaded += (s, e) => {
                 Window.MinWidth = Window.MinWidth == 0 ? Window.Bounds.Width : Window.MinWidth;

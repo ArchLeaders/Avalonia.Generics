@@ -7,7 +7,8 @@ namespace Avalonia.Generics.Dialogs
     public class BrowserDialog
     {
         private static Dictionary<string, BrowseHistory> Stashed { get; set; } = new();
-        private record BrowseHistory() {
+        private record BrowseHistory()
+        {
             public IStorageFolder? OpenDirectory { get; set; } = null;
             public IStorageFolder? SaveDirectory { get; set; } = null;
         }

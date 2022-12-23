@@ -83,7 +83,7 @@
         </Grid>
 
         <Grid Grid.Row="1" RowDefinitions="*,auto">
-            <ContentControl Name="Content" />
+            <ContentControl Name="LayoutRoot" />
             <StackPanel Name="ButtonStack"
                         Grid.Row="1"
                         Margin="5,5,5,5"

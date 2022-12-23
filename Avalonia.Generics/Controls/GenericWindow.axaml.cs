@@ -1,12 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Generics.Dialogs;
-using Avalonia.Markup.Xaml;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.MenuFactory;
-using Avalonia.Platform;
-using System.Reflection;
 
 namespace Avalonia.Generics.Controls
 {
