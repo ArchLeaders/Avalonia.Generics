@@ -4,7 +4,6 @@
              xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:mda="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
@@ -35,21 +34,5 @@
                 </Style>
             </TextBox.Styles>
         </TextBox>
-
-        <mda:MarkdownScrollViewer Name="MarkdownViewer"
-                                  Margin="5"
-                                  IsVisible="False"
-                                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
-            <mda:MarkdownScrollViewer.Styles>
-                <Style Selector="ctxt|CHyperlink">
-                    <Setter Property="IsUnderline" Value="False" />
-                    <Setter Property="Transitions">
-                        <Transitions>
-                            <BrushTransition Property="Foreground" Duration="0:0:0.15" />
-                        </Transitions>
-                    </Setter>
-                </Style>
-            </mda:MarkdownScrollViewer.Styles>
-        </mda:MarkdownScrollViewer>
     </Grid>
 </UserControl>

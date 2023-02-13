@@ -104,7 +104,7 @@ namespace Avalonia.Generics.Builders
         public WindowBuilder WithMenu(object menuFactoryModel)
         {
             Window.TitleBox.IsVisible = false;
-            Window.RootMenu.Items = MenuFactory.MenuFactory.Generate(menuFactoryModel);
+            Window.RootMenu.Items = MenuFactory.Generate(menuFactoryModel);
             return this;
         }
 

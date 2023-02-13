@@ -1,8 +1,7 @@
 <Application x:Class="Avalonia.Generics.Demo.App"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Avalonia.Generics.Demo"
-             RequestedThemeVariant="Default">
+             xmlns:local="using:Avalonia.Generics.Demo">
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>

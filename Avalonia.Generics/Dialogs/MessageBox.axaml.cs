@@ -13,7 +13,7 @@ namespace Avalonia.Generics.Dialogs
         [Chrome(MaterialIconKind.ContentCopy)]
         public async void Copy(Window window)
         {
-            string text = Formatting == Formatting.Markdown ? $"\n{MarkdownViewer.Markdown}" : $"```\n{TextViewer.Text}\n```";
+            string text = $"```\n{TextViewer.Text}\n```";
             await Application.Current!.Clipboard!.SetTextAsync($"**{window.Title}**\n{text}");
         }
 
@@ -22,15 +22,7 @@ namespace Avalonia.Generics.Dialogs
         {
             InitializeComponent();
             Formatting = formatting;
-
-            if (formatting == Formatting.Markdown) {
-                TextViewer.IsVisible = false;
-                MarkdownViewer.IsVisible = true;
-                MarkdownViewer.Markdown = text;
-            }
-            else {
-                TextViewer.Text = text;
-            }
+            TextViewer.Text = text;
         }
 
         public static async Task<DialogResult> ShowDialog(string text, string title = "Notice", DialogButtons dialogButtons = DialogButtons.Ok, Formatting formatting = Formatting.None, WindowOptions? options = null)

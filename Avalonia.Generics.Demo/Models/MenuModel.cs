@@ -1,5 +1,5 @@
 ﻿using Avalonia.Generics.Dialogs;
-using Avalonia.MenuFactory.Attributes;
+using Avalonia.Generics.Factories;
 using Material.Icons;
 
 namespace Avalonia.Generics.Demo.Models
