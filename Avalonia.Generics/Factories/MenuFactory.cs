@@ -7,6 +7,24 @@ namespace Avalonia.Generics.Factories;
 
 public class MenuFactory
 {
+    /// <summary>
+    /// Defaults:<br/>
+    /// - <i>MenuFactor-TopLevel</i><br/>
+    /// - <i>MenuFactor-MenuItem</i>
+    /// </summary>
+    public static Classes TopLevelClasses { get; set; } = new() {
+        "MenuFactor-TopLevel",
+        "MenuFactor-MenuItem"
+    };
+
+    /// <summary>
+    /// Defaults:<br/>
+    /// - <i>MenuFactor-MenuItem</i>
+    /// </summary>
+    public static Classes MenuItemClasses { get; set; } = new() {
+        "MenuFactor-MenuItem"
+    };
+
     public static List<Control> Generate<T>(T model)
     {
         if (model == null) {
@@ -58,11 +76,9 @@ public class MenuFactory
         List<Control> itemsRoot = new();
 
         foreach ((var name, var childData) in data) {
-
             MenuItem child;
 
             if (childData is MethodInfo func) {
-
                 var menu = func.GetCustomAttribute<MenuAttribute>()!;
                 if (menu.IsSeparator) itemsRoot.Add(new Separator());
 
@@ -74,6 +90,7 @@ public class MenuFactory
                     HotKey = shortcut,
                     InputGesture = shortcut!,
                     Height = (menu.Name ?? func.Name).StartsWith("_") ? 30 : double.NaN,
+                    Classes = MenuItemClasses,
                     Command = ReactiveCommand.Create(() => {
                         func.Invoke(obj, Array.Empty<object>());
                     })
@@ -82,11 +99,14 @@ public class MenuFactory
                 if (shortcut != null) {
                     HotKeyManager.SetHotKey(child, shortcut);
                 }
+
+                child.Classes.Add("");
             }
             else if (childData is Dictionary<string, dynamic> dict) {
                 child = new() {
                     Header = name,
                     Items = CollectChildItems(dict, obj),
+                    Classes = TopLevelClasses
                 };
             }
             else {
