@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Generics.Controls;
-using Material.Icons.Avalonia;
 using System.Reflection;
 
 namespace Avalonia.Generics.Factories
@@ -15,8 +14,8 @@ namespace Avalonia.Generics.Factories
                 ChromeAttribute att = method.GetCustomAttribute<ChromeAttribute>()!;
 
                 Button button = new() {
-                    Content = new MaterialIcon() {
-                        Kind = att.Icon,
+                    Content = new Projektanker.Icons.Avalonia.Icon() {
+                        Value = att.Icon,
                         Width = att.IconSize,
                         Height = att.IconSize
                     }

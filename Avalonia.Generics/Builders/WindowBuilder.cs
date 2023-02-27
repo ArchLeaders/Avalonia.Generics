@@ -8,7 +8,6 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Material.Icons;
 
 namespace Avalonia.Generics.Builders
 {
@@ -80,11 +79,11 @@ namespace Avalonia.Generics.Builders
         /// Adds a <see cref="MaterialIconKind"/> icon to the current <see cref="WindowBuilder"/>
         /// <para><i>Note: <see cref="MaterialIconKind"/> icons don't support setting the Taskbar Icon, which will be set the parent app icon when possible.</i></para>
         /// </summary>
-        public WindowBuilder WithIcon(MaterialIconKind icon)
+        public WindowBuilder WithIcon(string icon)
         {
             Window.DialogIcon.IsVisible = false;
-            Window.MaterialIcon.IsVisible = true;
-            Window.MaterialIcon.Kind = icon;
+            Window.CustomIcon.IsVisible = true;
+            Window.CustomIcon.Value = icon;
             return this;
         }
 
@@ -104,7 +103,7 @@ namespace Avalonia.Generics.Builders
         public WindowBuilder WithMenu(object menuFactoryModel)
         {
             Window.TitleBox.IsVisible = false;
-            Window.RootMenu.Items = MenuFactory.MenuFactory.Generate(menuFactoryModel);
+            Window.RootMenu.Items = MenuFactory.Generate(menuFactoryModel);
             return this;
         }
 

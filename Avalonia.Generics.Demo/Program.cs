@@ -1,6 +1,6 @@
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.FontAwesome;
 using System;
 
 namespace Avalonia.Generics.Demo
@@ -18,7 +18,9 @@ namespace Avalonia.Generics.Demo
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
-                .LogToTrace()
+                .LogToTrace().WithIcons(container => container
+                    .Register<FontAwesomeIconProvider>())
                 .UseReactiveUI();
+
     }
 }

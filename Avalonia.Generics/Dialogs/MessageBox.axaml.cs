@@ -2,7 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Generics.Builders;
 using Avalonia.Generics.Controls;
 using Avalonia.Generics.Factories;
-using Material.Icons;
 
 namespace Avalonia.Generics.Dialogs
 {
@@ -10,7 +9,7 @@ namespace Avalonia.Generics.Dialogs
     {
         private Formatting Formatting { get; } = Formatting.None;
 
-        [Chrome(MaterialIconKind.ContentCopy)]
+        [Chrome("fa-solid fa-copy")]
         public async void Copy(Window window)
         {
             string text = Formatting == Formatting.Markdown ? $"\n{MarkdownViewer.Markdown}" : $"```\n{TextViewer.Text}\n```";

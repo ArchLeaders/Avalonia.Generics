@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:mdix="using:Material.Icons.Avalonia"
+        xmlns:pi="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
         Title="InputDialog"
         d:DesignHeight="200"
         d:DesignWidth="300"
@@ -27,11 +27,11 @@
                        Width="22"
                        Margin="4"
                        IsHitTestVisible="False" />
-                <mdix:MaterialIcon Name="MaterialIcon"
-                                   Width="22"
-                                   Margin="4"
-                                   IsHitTestVisible="False"
-                                   IsVisible="False" />
+                <pi:Icon Name="CustomIcon"
+                         Width="22"
+                         Margin="4"
+                         IsHitTestVisible="False"
+                         IsVisible="False" />
                 <TextBlock Name="TitleBox"
                            Margin="4,0"
                            VerticalAlignment="Center"
@@ -54,7 +54,7 @@
                     <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
                         <Setter Property="Background" Value="Transparent" />
                     </Style>
-                    <Style Selector="mdix|MaterialIcon">
+                    <Style Selector="pi|Icon">
                         <Setter Property="Width" Value="24" />
                         <Setter Property="Height" Value="24" />
                         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -64,18 +64,18 @@
                 </Grid.Styles>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <Button Name="Minimize">
-                        <mdix:MaterialIcon Margin="0,2,0,0" Kind="Minus" />
+                        <pi:Icon Margin="0,2,0,0" Value="fa-solid fa-minus" />
                     </Button>
                     <Button Name="Fullscreen">
                         <Grid>
-                            <mdix:MaterialIcon Name="ICON_Fullscreen" Kind="Fullscreen" />
-                            <mdix:MaterialIcon Name="ICON_Restore"
-                                               IsVisible="False"
-                                               Kind="WindowRestore" />
+                            <pi:Icon Name="ICON_Fullscreen" Value="fa-solid fa-expand" />
+                            <pi:Icon Name="ICON_Restore"
+                                     IsVisible="False"
+                                     Value="fa-solid fa-window-restore" />
                         </Grid>
                     </Button>
                     <Button Name="Quit">
-                        <mdix:MaterialIcon Kind="Close" />
+                        <pi:Icon Value="fa-solid fa-xmark" />
                     </Button>
                 </StackPanel>
                 <StackPanel Name="ChromeButtons" Orientation="Horizontal" />
