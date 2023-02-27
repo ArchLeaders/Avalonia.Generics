@@ -1,6 +1,4 @@
 ﻿using Avalonia.Generics.Dialogs;
-using Avalonia.MenuFactory.Attributes;
-using Material.Icons;
 
 namespace Avalonia.Generics.Demo.Models
 {
